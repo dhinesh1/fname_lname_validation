@@ -95,7 +95,7 @@
             Invalid selection-This field is already used as a search criteria
         </mat-error>
         <!-- <button class="row btn btn-primary" type="submit" [disabled]="dis()">Submit</button> -->
-        <button class="row btn btn-primary" type="submit" [disabled]="(providerForm.invalid || alreadyAddedSearch) ? 'disabled': null ">Submit</button>
+        <button class="row btn btn-primary" type="submit" [disabled]="(providerForm.invalid || alreadyAddedSearch || (firstNameAdded != lastNameAdded) ) ? 'disabled': null ">Submit</button>
     </form>
 
 </div>

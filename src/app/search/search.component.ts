@@ -106,13 +106,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       const deletedElement = providerFields.at(i).value.providerField;
       var firstIndex = this.duplicateValues.findIndex(e => e == deletedElement);
       this.duplicateValues.splice(firstIndex, 1);
-      debugger;
       //first name code
-      // if(deletedElement == 'firstName' || deletedElement == 'lastName'){  //  || element.providerField == 'billPfinFirstName' || element.providerField == 'billPfinLastName') // add this
-      //   this.providerForm.value.providerFields.forEach( (element: { providerField: any; providerValue: any, dateV: any } )=> {
-        
-      //   });
-      // }
       if(deletedElement == 'firstName') {//  || deletedElement == 'billPfinFirstName') // add this
       
         this.firstNameAdded = false;
@@ -130,7 +124,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
   submit() {
     this.submitted = true;
     console.log(this.providerForm.value.providerFields);
-    debugger;
     const body: ProviderJson = {
       'provId': 0,
       'pfin': 0,
@@ -205,7 +198,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     let counterForControls = 0;
     this.providerControl.forEach((x: FormGroup) => {
       // First name code
-    debugger;
     if(x.controls.providerField.value == 'firstName') {//  || x.controls.providerField.value == 'billPfinFirstName') // add this
       
       this.firstNameAdded = true;
