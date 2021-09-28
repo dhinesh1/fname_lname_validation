@@ -1,0 +1,59 @@
+  .search-box {
+    /* margin-top: 20px;
+    padding-top: 2px; */
+    height: 30px;
+    clear: both;
+    background-color: rgb(130, 130, 130);
+    margin-right: 0rem;
+  }
+
+  .search-title {
+    font-family: Baskerville Old Face;
+    font-weight: bolder;
+    font-size: larger;
+    color: white;
+  }
+
+  .search-value-title {
+      font-size: smaller;
+      /* // margin-left: 175px; */
+  }
+
+  .search-criteria-title {
+    font-size: smaller;
+    /* // margin-left: 60px; */
+  }
+
+  .search-drop-down {
+    font-size:9px;
+    width: 14%;
+  }
+
+  .search-input-value {
+    font-size:9px;
+    width: 10rem;
+  }
+
+  .search-criteria {
+    width: 15%;
+  }
+
+  .mat-dropdown {
+    width: 9rem;
+  }
+
+  .row {
+    margin-right: 0rem;
+  }
+
+  .search-input {
+    width: 9rem;
+  }
+
+  .minus-icon {
+    width: 1rem;
+  }
+
+  .width-250{
+    width: 250px;
+  }

@@ -1,0 +1,135 @@
+<div class="row search-box">
+    <p class="search-title ps-4">Provider Search</p>
+</div>
+<div class="row search-fields">
+    <div class="col-3 search-criteria">
+        <h6 class="ps-4">Search Criteria</h6>
+    </div>
+    <div class="col-9">
+        <h6 class="ps-2">Search Value</h6>
+    </div>
+</div>
+
+<div>
+    <form [formGroup]="providerForm" (ngSubmit)="submit()">
+        <!-- <div formGroupName="providerDates">
+            <div class="row">
+                <div class="col-2">
+                    <mat-label>
+                        Attestation Date
+                    </mat-label>
+                </div>
+                <div class="col-3">
+                    <mat-form-field class=" mat-dropdown ms-2 width-250" appearance="fill">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker" [formGroup]="providerDateControl" (change)="dis()">
+                            <input matStartDate formControlName="fromDate" placeholder="Start date">
+                            <input matEndDate formControlName="toDate" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                        <mat-error *ngIf="providerDateControl.controls.fromDate.errors">Invalid start date</mat-error>
+                        <mat-error *ngIf="providerDateControl.controls.toDate.errors">Invalid end date</mat-error>
+                    </mat-form-field>
+                </div>
+                <div ngClass=" col-2 mt-1 plus-icon">
+                    <i tooltip="Add Field" class="fa fa-plus" (click)="addProviderFormGroup()" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div> -->
+        <div formArrayName="providerFields">
+            <div class="row form-group" *ngFor="let provider of providerControl; let i = index;
+                let isLast = last" [formGroupName]="i">
+                <div class="col-2 search-drop-down">
+                    <mat-form-field class=" mat-dropdown ms-2" appearance="fill">
+                        <mat-label> Select the field </mat-label>
+                        <mat-select formControlName="providerField" (selectionChange)="onSelect($event)">
+                            <mat-option *ngFor="let field of providerFieldsDropDown" [value]="field.value">
+                                {{field.dropDown}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-2 search-input-value">
+                    <mat-form-field class="ms-0 search-input" appearance="outline" *ngIf="!checkDateControl(provider)">
+                        <mat-label>Search field</mat-label>
+                        <input matInput formControlName="providerValue"
+                            placeholder="Enter the field">
+                        <!-- <input type="date" max="9999-12-31"  *ngIf="checkDateControl(provider)"
+                            matInput formControlName="providerValue"> -->
+                        <mat-error *ngIf="provider.controls.providerValue.errors?.pattern">
+                            This field can only contain digits!
+                        </mat-error>
+
+                        <mat-error
+                            *ngIf="provider.controls.providerValue.touched && !provider.controls.providerValue.value">
+                            Mandatory Fields cannot be blank!
+                        </mat-error>
+
+
+                    </mat-form-field>
+                    <mat-form-field class="mat-dropdown ms-2" appearance="fill" *ngIf="checkDateControl(provider)">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker" [formGroup]="providerDateControl">
+                            <input matStartDate formControlName="fromDate" placeholder="Start date">
+                            <input matEndDate formControlName="toDate" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                        <mat-error *ngIf="providerDateControl.controls.fromDate.errors">Invalid start date</mat-error>
+                        <mat-error *ngIf="providerDateControl.controls.toDate.errors">Invalid end date</mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="i>0" ngClass="i>0 && !isLast? col-1 mt-1 : col-1 mt-1 minus-icon">
+                    <i tooltip="Remove Field" class="fa fa-times" (click)="removeField(i)" aria-hidden="true"></i>
+                </div>
+                <div *ngIf="isLast" ngClass="isLast? col-7 mt-1 plus-icon">
+                    <i tooltip="Add Field" class="fa fa-plus" (click)="addProviderFormGroup()" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+
+        <mat-error *ngIf="firstNameAdded != lastNameAdded" class="invalid-feedback d-block">
+            Please add both first name and last name
+        </mat-error>
+        <mat-error *ngIf="alreadyAddedSearch" class="invalid-feedback d-block">
+            Invalid selection-This field is already used as a search criteria
+        </mat-error>
+        <!-- <button class="row btn btn-primary" type="submit" [disabled]="dis()">Submit</button> -->
+        <button class="row btn btn-primary" type="submit" [disabled]="(providerForm.invalid || alreadyAddedSearch) ? 'disabled': null ">Submit</button>
+    </form>
+
+</div>
+<div class="row">
+    <!-- <div class="col-1">asdfrsdafsdfsdafdas</div> -->
+
+    <!-- <div class="col-11">
+      <div class="search-results" infiniteScroll [infiniteScrollDistance]="scrollDistance"
+        [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
+        <mat-table [dataSource]="dataSource" matSort>
+          <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+            <mat-header-cell *matHeaderCellDef>
+              <div mat-sort-header>
+                {{ column | titlecase }}
+              </div>
+              <div class="filter-position">
+                <button [matMenuTriggerFor]="appMenu" class="btn-icon" aria-label="">
+                  <mat-icon fontSet="fa" fontIcon="fa-filter"></mat-icon>
+                  
+                </button>
+                <mat-menu #appMenu>
+                    <app-filter [columnName]="column" [reset]="resetObj" [columnDataType]="getType(column)"
+                    (emitFilter)="filterData($event)"></app-filter>
+                </mat-menu>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let item">{{ item[column] }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true">
+
+          </mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+    </div> -->
+</div>

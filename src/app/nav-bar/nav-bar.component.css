@@ -1,0 +1,12 @@
+.navbar-light .navbar-nav .nav-link {
+    color: darkgrey;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: dodgerblue;
+}
+
+.font-size-30 {
+    font-size: 30px;
+    padding: 15px;
+}
